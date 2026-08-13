@@ -1,0 +1,11 @@
+services:
+  project:
+    build: app/
+    networks:
+      - mern
+
+
+networks:
+  mern:
+    driver: bridge
+
