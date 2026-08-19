@@ -1,11 +1,24 @@
 services:
   project:
     build: app/
+    depends_on:
+      - mongodb
     networks:
       - mern
+    ports:
+      - "9000:9000"
+
+  mongodb:
+    image: mongo:latest
+    networks:
+      - mern
+    
+    volumes:
+      - mongodb_data:/data/db
 
 
 networks:
   mern:
     driver: bridge
-
+volumes:
+  mongodb_data:

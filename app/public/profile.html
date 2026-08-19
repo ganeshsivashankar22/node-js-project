@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .profile-container {
+            width: 450px;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            margin: 0 auto 15px;
+        }
+
+        .profile-header h2 {
+            color: #333;
+        }
+
+        .profile-header p {
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .profile-details {
+            margin-top: 20px;
+        }
+
+        .detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .value {
+            color: #333;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .update-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="profile-container">
+
+        <div class="profile-header">
+            <div class="profile-image" id="profileInitial">
+                U
+            </div>
+
+            <h2 id="profileName">Loading...</h2>
+            <p id="profileEmail">Loading...</p>
+        </div>
+
+        <div class="profile-details">
+
+            <div class="detail">
+                <span class="label">Name</span>
+                <span class="value" id="name">-</span>
+            </div>
+
+            <div class="detail">
+                <span class="label">Email</span>
+                <span class="value" id="email">-</span>
+            </div>
+
+            <div class="detail">
+                <span class="label">Phone</span>
+                <span class="value" id="phone">-</span>
+            </div>
+
+            <div class="detail">
+                <span class="label">Address</span>
+                <span class="value" id="address">-</span>
+            </div>
+
+        </div>
+
+        <div class="buttons">
+            <button class="update-btn" onclick="updateProfile()">
+                Update Profile
+            </button>
+
+            <button class="logout-btn" onclick="logout()">
+                Logout
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+
+        async function loadProfile() {
+
+            try {
+
+                const response = await fetch("/api/profile");
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch profile");
+                }
+
+                const user = await response.json();
+
+                document.getElementById("profileName").textContent = user.name;
+                document.getElementById("profileEmail").textContent = user.email;
+
+                document.getElementById("name").textContent = user.name;
+                document.getElementById("email").textContent = user.email;
+                document.getElementById("phone").textContent = user.phone || "-";
+                document.getElementById("address").textContent = user.address || "-";
+
+                // First letter of user's name
+                if (user.name) {
+                    document.getElementById("profileInitial").textContent =
+                        user.name.charAt(0).toUpperCase();
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById("profileName").textContent =
+                    "Unable to load profile";
+
+            }
+        }
+
+        function updateProfile() {
+            window.location.href = "/update-profile.html";
+        }
+
+        function logout() {
+            window.location.href = "/login.html";
+        }
+
+        loadProfile();
+
+    </script>
+
+</body>
+</html>
