@@ -22,17 +22,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Dependencies
-        run: npm ci
+      - name: start server
+        run: docker compose up
 
-      - name: Display Versions
-        run: |
-          node -v
-          npm -v
+      
 
-      - name: Check Server Syntax
-        run: node --check server.js
-
-      - name: Start Server
-        run: |
-          timeout 10s npm start || true
