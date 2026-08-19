@@ -6,7 +6,7 @@ const app=express();
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-mongoose.connect("mongodb://127.0.0.1:27017/mydb")
+mongoose.connect("mongodb://mongodb:27017/mydb")
 .then(()=>console.log("mongoose connected successfully"))
 .catch((err)=>console.log(err));
 app.use("/api/auth",require("./routes/auth.js"));

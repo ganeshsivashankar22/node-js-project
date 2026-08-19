@@ -9,6 +9,8 @@ on:
       - "docker-compose.yml"
       - ".github/workflows/nodejs.yml"
 
+    permissions:
+      contents: read
 
 jobs:
   build:
@@ -21,9 +23,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: checking docker ps 
+        run: docker ps
+
+      - name: stopping the previous containers
+        run: docker compose down
 
       - name: start server
-        run: docker compose up
+        run: docker compose up --build -d
 
+      - name: checking the containers
+        run: docker ps
       
 
